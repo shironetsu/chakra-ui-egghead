@@ -90,4 +90,38 @@ https://nextjs.org/docs/getting-started/react-essentials#the-use-client-directiv
     - 中に要素を足したりできる。
     - `type`を`text`⇔`password` で切り替えて内容を表示するしないを切り替える作例。
     - `_placeholder` propでプレースホルダのスタイルをいじることができる。
-- `<Button>` はデフォルトで "auto"サイズなので `w="full"` を指定してやる
+- `<Button>` はデフォルトで "auto"サイズなので `w="full"` を指定してやる。
+
+## 4. Create a Dark Mode Switcher in Chakra UI
+ダークモードについて。`Cart` コンポーネントがいつの間にか出来上がっているのでlesson3のソースからコピー。
+
+https://github.com/nikolovlazar/egghead-getting-started-with-chakra-ui/tree/lesson-3
+
+- ドキュメントの "Color Mode" の項に解説がある。https://chakra-ui.com/docs/styled-system/color-mode#usecolormode
+- `localStorage` （デフォルト）か `cookies` に値を保存する。
+- 初期値が `light`（デフォルト）, `dark`, `system` から選べる。
+    - `extendTheme` で上書きする。
+    - `system` がデフォルトであるべきでは？　
+    - `config` で `initialColorMode: "system"` とするとOK。
+    - `useSystemColorMode`(ブール値)という項目もあって、これを `true` にするとシステムの値をsubscribeする（追従する）。
+- `system` は多分内部的にこれを読む：[prefers\-color\-scheme \- CSS: カスケーディングスタイルシート \| MDN](https://developer.mozilla.org/ja/docs/Web/CSS/@media/prefers-color-scheme)
+- これJSからどうアクセスするんだろう？　Color Mode API とかないのかな。
+- `initialColorMode` を使う場合、`ColorModeScript` をヘッダーに足してやるとよい。Local storageと同期させられるらしい。
+    - `_document.js` に書くとの記載。App Routerだと何処に置く？
+- `useColorMode` hook
+    - `const { colorMode, toggleColorMode } = useColorMode()`
+    - なんか太陽と月のトグルボタンとか出したかったらこれ使うとよい。
+- `useColorModeValue` hook
+    - `const value = useColorModeValue(lightModeValue, darkModeValue)`
+    - 出しわけしたい箇所ごと（背景、テキスト、枠線…）にこれを呼ぶ。
+- サーバーサイドで color preference を知る方法　[Color Mode \- Chakra UI](https://chakra-ui.com/docs/styled-system/color-mode#add-colormodemanager-optional-for-ssr)
+    - 初回描画から遅れて色が変わるのを防止。
+    - Cookieを使う。`cookieStorageManagerSSR` というのが生えている。
+- ダークモードって正直かなり贅沢な機能だと思うが、アクセシビリティの観点からも重要……と言われると Chakra UI が売りにしているのもうなずける。
+    - 伊原力也、小林大輔、桝田草一、山本伶『Webアプリケーションアクセシビリティ　今日から始める現場からの改善』（技術評論社、2023年）
+    弱視・ロービジョンの方々への対応に関して、
+    > 画面のまぶしさを軽減させたり、コントラストを高めて文字や図を読みやすくしたりするため、ダークモードや色の反転、ハイコントラストモードといった色変更を利用することもある
+- [ウェブアクセシビリティ導入ガイドブック｜デジタル庁](https://www.digital.go.jp/resources/introduction-to-web-accessibility-guidebook/)
+
+
+## 5. Implement Responsive Design in Chakra UI
