@@ -125,3 +125,17 @@ https://github.com/nikolovlazar/egghead-getting-started-with-chakra-ui/tree/less
 
 
 ## 5. Implement Responsive Design in Chakra UI
+レスポンシブ対応について。[Responsive Styles \- Chakra UI](https://chakra-ui.com/docs/styled-system/responsive-styles)
+
+- 配列記法
+    - `py={[0, 10, 20]}` みたいに配列を渡す。
+    - 前から `sm, md, lg` に対応。
+        - ブレークポイントは `sm, md, lg, xl, 2xl` とあるが、前から採用される形。
+- オブジェクト記法
+    - `h={{ base: 'auto', md: '100vh' }}` みたいなにオブジェクトを渡す。
+    - "Remember, Chakra UI uses the min-width media query for responsive design."
+    - 小さいほうが `base` に吸収される。
+- `useBreakPointValue` [useBreakpointValue \- Chakra UI](https://chakra-ui.com/docs/hooks/use-breakpoint-value)
+    - `const colSpan = useBreakpointValue({ base: 2, md: 1 })`
+    - 配列・オブジェクト記法に対応していないものはこれを使う。
+    - 第二引数にフォールバック時の値を入れられる（デフォルトは `'base'`）。SSRの初期値とか。

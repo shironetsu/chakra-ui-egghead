@@ -9,13 +9,13 @@ import {
     Stack,
     Button,
     useColorMode,
-    useColorModeValue
+    useColorModeValue,
 } from '@chakra-ui/react';
 
 export function Cart() {
-    const { toggleColorMode } = useColorMode()
-    const bgColor = useColorModeValue("gray.50", "whiteAlpha.50")
-    const secondaryTextColor = useColorModeValue("gray.600", "gray.400");
+    const { toggleColorMode } = useColorMode();
+    const bgColor = useColorModeValue('gray.50', 'whiteAlpha.50');
+    const secondaryTextColor = useColorModeValue('gray.600', 'gray.400');
     return (
         <VStack
             w="full"
