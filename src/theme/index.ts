@@ -1,4 +1,5 @@
-import { extendTheme, theme as baseTheme, withDefaultColorScheme, withDefaultVariant, type ComponentStyleConfig } from "@chakra-ui/react";
+import { extendTheme, theme as baseTheme, withDefaultColorScheme, withDefaultVariant, type ComponentStyleConfig, type StyleFunctionProps } from "@chakra-ui/react";
+import { mode } from "@chakra-ui/theme-tools"
 import { Montserrat, Inter } from 'next/font/google'
 
 /* 
@@ -36,6 +37,13 @@ const inputSelectStyles: ComponentStyleConfig = {
     }
 }
 
+const brandRing = {
+    _focus: {
+        ring: 2,
+        ringColor: "brand.500",
+    }
+}
+
 export const theme = extendTheme({
     colors: {
         brand: {
@@ -56,16 +64,31 @@ export const theme = extendTheme({
         body: `${bodyFont.style.fontFamily}, ${baseTheme.fonts.body}`,
     },
     components: {
+        Button :{
+            variants: {
+                primary: (props: StyleFunctionProps) => ({
+                    rounded: 'none',
+                    ...brandRing,
+                    color: mode("white", "gray.800")(props),
+                    backgroundColor: mode('brand.500', "brand.200")(props),
+
+                    _hover: {
+                        backgroundColor: mode('brand.600', "brand.300")(props),
+                    },
+
+                    _active: {
+                        backgroundColor: mode("brand.700", "brand.400")(props),
+                    }
+                })
+            },
+        },
         Input: { ...inputSelectStyles },
         Select: { ...inputSelectStyles },
         Checkbox: {
             baseStyle: {
                 control: {
                     borderRadius: 'none',
-                    _focus: {
-                        ring: 2,
-                        ringColor: "brand.500",
-                    }
+                    ...brandRing,
                 }
             }
         }

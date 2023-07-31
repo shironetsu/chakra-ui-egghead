@@ -295,3 +295,16 @@ Checkbox: {
 https://github.com/chakra-ui/chakra-ui/blob/main/packages/components/theme/src/components/checkbox.ts
 
 "default component style files" を見よとの記載があるが見ても分からん
+
+## 9. Create Custom Variants in Chakra UI
+バリアントを自作する方法について。
+```ts
+    components: {
+        Button :{
+            variants: {
+                primary: (props: StyleFunctionProps) => ({
+```
+みたいにすると `"primary"` というバリアントを定義できる。
+- 各エントリーは `color: mode("white", "gray.800")(props),` みたいにしてカラーモードに関する振る舞いを規定できる。
+    - `mode` のインポート元の `@chakra-ui/theme-tools` は別途要インストール。
+- バリアントにカラーに関する挙動を含めていいのか？
