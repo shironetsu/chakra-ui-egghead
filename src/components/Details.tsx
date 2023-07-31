@@ -57,11 +57,11 @@ export function Details() {
             </Select>
           </FormControl>
         </GridItem>
-        <GridItem colSpan={colSpan}>
+        <GridItem colSpan={2}>
           <Checkbox defaultChecked>Ship to billing address.</Checkbox>
         </GridItem>
-        <GridItem colSpan={colSpan}>
-          <Button size="lg" w="full">
+        <GridItem colSpan={2}>
+          <Button colorScheme="brand" size="lg" w="full">
             Place Order
           </Button>
         </GridItem>

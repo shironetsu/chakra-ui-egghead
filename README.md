@@ -139,3 +139,118 @@ https://github.com/nikolovlazar/egghead-getting-started-with-chakra-ui/tree/less
     - `const colSpan = useBreakpointValue({ base: 2, md: 1 })`
     - 配列・オブジェクト記法に対応していないものはこれを使う。
     - 第二引数にフォールバック時の値を入れられる（デフォルトは `'base'`）。SSRの初期値とか。
+
+## 6. Define Custom Colors and Fonts in Chakra UI
+
+`theme/styles.css` を
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700&display=swap');
+```
+
+と書いて、`layout.tsx` でインポートするとエラー。
+`Error: Cannot find module './features/createimagebitmap'` らしい。
+
+```
+- error ./src/theme/styles.css.webpack[javascript/auto]!=!./node_modules/.pnpm/next@13.4.11_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[12].use[2]!./node_modules/.pnpm/next@13.4.11_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[12].use[3]!./src/theme/styles.css
+Error: Cannot find module './features/createimagebitmap'
+Require stack:
+- path\to\chakra-ui-egghead\node_modules\.pnpm\caniuse-lite@1.0.30001517\node_modules\caniuse-lite\data\features.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\caniuse-lite@1.0.30001517\node_modules\caniuse-lite\dist\unpacker\features.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\caniuse-lite@1.0.30001517\node_modules\caniuse-lite\dist\unpacker\index.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\next@13.4.11_react-dom@18.2.0_react@18.2.0\node_modules\next\dist\compiled\postcss-preset-env\index.cjs
+- path\to\chakra-ui-egghead\node_modules\.pnpm\next@13.4.11_react-dom@18.2.0_react@18.2.0\node_modules\next\dist\build\webpack\config\blocks\css\plugins.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\next@13.4.11_react-dom@18.2.0_react@18.2.0\node_modules\next\dist\build\webpack\config\blocks\css\index.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\next@13.4.11_react-dom@18.2.0_react@18.2.0\node_modules\next\dist\build\webpack\config\index.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\next@13.4.11_react-dom@18.2.0_react@18.2.0\node_modules\next\dist\build\webpack-config.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\next@13.4.11_react-dom@18.2.0_react@18.2.0\node_modules\next\dist\server\dev\hot-reloader.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\next@13.4.11_react-dom@18.2.0_react@18.2.0\node_modules\next\dist\server\dev\next-dev-server.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\next@13.4.11_react-dom@18.2.0_react@18.2.0\node_modules\next\dist\server\next.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\next@13.4.11_react-dom@18.2.0_react@18.2.0\node_modules\next\dist\server\lib\render-server.js
+- path\to\chakra-ui-egghead\node_modules\.pnpm\next@13.4.11_react-dom@18.2.0_react@18.2.0\node_modules\next\dist\compiled\jest-worker\processChild.js
+Import trace for requested module:
+./src/theme/styles.css.webpack[javascript/auto]!=!./node_modules/.pnpm/next@13.4.11_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[12].use[2]!./node_modules/.pnpm/next@13.4.11_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[12].use[3]!./src/theme/styles.css
+./src/theme/styles.css
+```
+
+エラーの内容的にはcaniuse-liteが関係しているので `createimagebitmap`　がブラウザ互換性かNode側に実装がない都合で読み込まれていない？
+
+Next的にはWebフォントは `@import` より良い方法があるからapp routerでは対応していないのかもしれん。
+
+[Optimizing: Fonts \| Next\.js](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
+
+[Fonts in Next\.js 13 \+ Chakra\-UI \- DEV Community](https://dev.to/feijens/fonts-in-nextjs-13-chakra-ui-3i87#:~:text=How%20to%20use%20%40next%2Ffont%20combined%20with%20chakra-ui%20Create,docs%20describe%2C%20I%27m%20going%20for%20Averia%20Serif%20Libre.)
+
+このdev.toの記事の内容で対応。
+フォールバック要らないかも？
+
+`next/font`にも `fallback` がある：[Components: Font \| Next\.js](https://nextjs.org/docs/pages/api-reference/components/font#fallback)
+
+```
+`next/font` error:
+Preload is enabled but no subsets were specified for font `Inter`. Please specify subsets or disable preloading if your intended subset can't be preloaded.
+Available subsets: `cyrillic`, `cyrillic-ext`, `greek`, `greek-ext`, `latin`, `latin-ext`, `vietnamese`
+
+Read more: https://nextjs.org/docs/messages/google-fonts-missing-subsets
+```
+
+`subsets: ['latin']` を追加。
+
+
+まだエラー出る。
+
+```
+An error occured in `next/font`.
+
+Error: Cannot find module './features/createimagebitmap'
+```
+
+`pnpm install --force` してみると解消……。
+
+`fallback` に ChakraUIのベーステーマを渡そうとすると怒られる：
+
+```
+  x Font loader values must be explicitly written literals.
+      ,-[C:\path\to\chakra-ui-egghead\src\theme\index.ts:9:1]
+  9 |     weight: '700',
+ 10 |     display: 'swap',
+ 11 |     subsets: ['latin'],
+ 12 |     fallback: [base.fonts.heading]
+    :                ^^^^^^^^^^^^^^^^^^
+ 13 | })
+```
+
+[Customize Theme \- Chakra UI](https://chakra-ui.com/docs/styled-system/customize-theme)
+
+```ts
+export const theme = extendTheme({
+    colors: {
+        brand: {
+            50: '#f5fee5',
+            100: '#e1fbb2',
+            200: '#cdf781',
+            300: '#b8ee56',
+            400: '#a2e032',
+            500: '#8ac919',
+            600: '#71ab09',
+            700: '#578602',
+            800: '#3c5e00',
+            900: '#203300',
+          },
+    },
+```
+
+こんな感じで書くと、`colorScheme` を新しく定義できる。
+
+```tsx
+          <Button colorScheme="brand" size="lg" w="full">
+```
+
+`extendTheme` に渡せるオブジェクトに型が付いていないのが辛い。
+
+型付けこれ：
+
+```ts
+declare const extendTheme: (...extensions: (Record<string, any> | ((theme: Record<string, any>) => Record<string, any>))[]) => Record<string, any>;
+```
+デフォルト値（＝上書き可能な値）は [default theme foundation style files](https://github.com/chakra-ui/chakra-ui/tree/main/packages/components/theme/src/foundations) を見ろとの記載があり。
