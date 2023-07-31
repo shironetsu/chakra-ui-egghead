@@ -267,3 +267,31 @@ declare const extendTheme: (...extensions: (Record<string, any> | ((theme: Recor
     - `Input` なら `"outline", "unstyled", "flushed", "filled"`等。https://chakra-ui.com/docs/components/input#changing-the-appearance-of-the-input
     - `withDefaultVariant({ variant: 'filled', components: ['Input', 'Select']})` みたいに使う。
 - `withDefaultSize` や `withDefaultProps` というのもある。
+
+## 8. Override the Built-in Component's Styles in Chakra UI
+コンポーネントのスタイルを上書きする方法について。
+
+https://chakra-ui.com/docs/styled-system/customize-theme#customizing-component-styles
+
+- `extendTheme` に渡すオブジェクトの `"components"` プロパティにコンポーネント名をキーとしてオブジェクトを渡す。
+    - `ComponentStyleConfig` 型というのがある。
+    - `baseStyle, sizes, variants, defaultProps` がある。
+- これみたいに「focus時のスタイルを変えたい」という場合どこから調べるんだ…？
+
+```ts
+Checkbox: {
+    baseStyle: {
+        control: {
+            borderRadius: 'none',
+            _focus: {
+                ring: 2,
+                ringColor: "brand.500",
+            }
+        }
+    }
+}
+```
+ここ？
+https://github.com/chakra-ui/chakra-ui/blob/main/packages/components/theme/src/components/checkbox.ts
+
+"default component style files" を見よとの記載があるが見ても分からん
