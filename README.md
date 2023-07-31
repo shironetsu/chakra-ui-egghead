@@ -254,3 +254,16 @@ export const theme = extendTheme({
 declare const extendTheme: (...extensions: (Record<string, any> | ((theme: Record<string, any>) => Record<string, any>))[]) => Record<string, any>;
 ```
 デフォルト値（＝上書き可能な値）は [default theme foundation style files](https://github.com/chakra-ui/chakra-ui/tree/main/packages/components/theme/src/foundations) を見ろとの記載があり。
+
+## 7. Use Theme Extensions in Chakra UI
+コンポーネント単位でカラースキームやバリアントのデフォルト値を指定する方法について。
+- `extendTheme` には複数のオブジェクトを渡せる。
+    - 後ろが優先
+- `withDefaultColorScheme` https://chakra-ui.com/docs/styled-system/customize-theme#using-theme-extensions
+    - `withDefaultColorScheme({ colorScheme: 'brand', components: ['Button'] })` みたいにコンポーネントとそのカラースキームを指定
+    - `withDefaultColorScheme` は複数使える。
+- `withDefaultVariant` https://chakra-ui.com/docs/styled-system/customize-theme#theme-extension-withdefaultvariant
+    - 「バリアント」のデフォルト値を指定できる。
+    - `Input` なら `"outline", "unstyled", "flushed", "filled"`等。https://chakra-ui.com/docs/components/input#changing-the-appearance-of-the-input
+    - `withDefaultVariant({ variant: 'filled', components: ['Input', 'Select']})` みたいに使う。
+- `withDefaultSize` や `withDefaultProps` というのもある。

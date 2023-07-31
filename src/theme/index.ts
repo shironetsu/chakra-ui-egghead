@@ -1,4 +1,4 @@
-import { extendTheme, theme as baseTheme } from "@chakra-ui/react";
+import { extendTheme, theme as baseTheme, withDefaultColorScheme, withDefaultVariant } from "@chakra-ui/react";
 import { Montserrat, Inter } from 'next/font/google'
 
 /* 
@@ -32,10 +32,19 @@ export const theme = extendTheme({
             700: '#578602',
             800: '#3c5e00',
             900: '#203300',
-          },
+        },
     },
     fonts: {
         heading: `${headingFont.style.fontFamily}, ${baseTheme.fonts.heading}`,
         body: `${bodyFont.style.fontFamily}, ${baseTheme.fonts.body}`,
-    }
-})
+    },
+},
+    withDefaultColorScheme({
+        colorScheme: 'brand',
+        components: ["Checkbox"]
+    }),
+    withDefaultVariant({
+        variant: 'filled',
+        components: ['Input', 'Select'],
+    })
+)
