@@ -308,3 +308,10 @@ https://github.com/chakra-ui/chakra-ui/blob/main/packages/components/theme/src/c
 - 各エントリーは `color: mode("white", "gray.800")(props),` みたいにしてカラーモードに関する振る舞いを規定できる。
     - `mode` のインポート元の `@chakra-ui/theme-tools` は別途要インストール。
 - バリアントにカラーに関する挙動を含めていいのか？
+
+## 終
+
+Pages Router時代に一周したことがあったが改めて勉強になった。
+
+この作例くらいではApp Router固有の事情は余り絡んでこない。
+SSR用のオプションをRSCで使う場合に詰まりそうな気がする。
